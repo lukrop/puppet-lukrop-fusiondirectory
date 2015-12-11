@@ -1,0 +1,25 @@
+{
+  "name": "lukrop-fusiondirectory",
+  "version": "0.1.0",
+  "author": "lukrop",
+  "summary": "Installs FusionDirectory.",
+  "license": "Apache 2.0",
+  "source": "https://github.org/lukrop/puppet-lukrop-fusiondirectory",
+  "project_page": null,
+  "issues_url": "https://github.org/lukrop/puppet-lukrop-fusiondirectory",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 4.9.0"},
+    {"name":"camptocamp-openldap","version_requirement":">= 1.12.0"}
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "6",
+        "7",
+        "8"
+      ]
+    }
+  ]
+}
+
