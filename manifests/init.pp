@@ -1,25 +1,8 @@
 # == Class: fusiondirectory
 #
-# Full description of class fusiondirectory here.
+# Installs FusionDirectory webinterface, plugins and schemas.
 #
 # === Parameters
-#
-# Document parameters here.
-#
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
-#
-# === Variables
-#
-# Here you should define a list of variables that this module would require.
-#
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
 #
 # === Examples
 #
@@ -29,13 +12,33 @@
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# Lukas Kropatschek <lukas@kropatschek.net>
 #
 # === Copyright
 #
-# Copyright 2015 Your name here, unless otherwise noted.
+# Copyright 2015 Lukas Kropatschek, unless otherwise noted.
 #
-class fusiondirectory {
+class fusiondirectory (
+  $base_dn    = $fusiondirectory::params::base_dn,
+  $admin_dn   = $fusiondirectory::params::admin_dn,
+  $admin_pw   = $fusiondirectory::params::admin_pw,
+  $ldap_uri   = $fusiondirectory::params::ldap_uri,
+  $ldap_tls   = $fusiondirectory::params::ldap_tls,
+  $use_repo   = $fusiondirectory::params::use_repo,
 
+) inherits fusiondirectory::params {
+  if !$base_dn or !$admin_pw {
+    fail('Need base domain name and LDAP administrator password.')
+  }
+
+  if $use_repo {
+    class { 'fusiondirectory::repository':
+      ensure  => present,
+    }
+  } else {
+    class { 'fusiondirectory::repository':
+      ensure  => absent,
+    }
+  }
 
 }
