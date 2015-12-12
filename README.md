@@ -3,23 +3,19 @@
 #### Table of Contents
 
 1. [Overview](#overview)
-2. [Module Description - What the module does and why it is useful](#module-description)
-3. [Setup - The basics of getting started with fusiondirectory](#setup)
+2. [Description](#description)
+3. [Setup](#setup)
     * [What fusiondirectory affects](#what-fusiondirectory-affects)
-    * [Setup requirements](#setup-requirements)
     * [Beginning with fusiondirectory](#beginning-with-fusiondirectory)
-4. [Usage - Configuration options and additional functionality](#usage)
-5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+4. [Usage](#usage)
+5. [Reference](#reference)
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+This puppet module lets you easily install [https://www.fusiondirectory.org/](FusionDirectory) on
+Debian (based) systems.
 
-## Module Description
+## Description
 
 If applicable, this section should have a brief description of the technology
 the module integrates with and what that integration enables. This section
@@ -33,47 +29,39 @@ management, etc.) this is the time to mention it.
 
 ### What fusiondirectory affects
 
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
-
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
+* Installs the fusiondirectory package
+* Installs plugin packages listed by the user
+* By default adds the apt repository of fusiondirectory and installs packages from there
+* Installs schema packages listed by the user as well as inserts those schemas using the [https://forge.puppetlabs.com/camptocamp/openldap/](camptocamp-openldap) puppet module.
 
 ### Beginning with fusiondirectory
 
-The very basic steps needed for a user to get the module up and running.
+Currently the module is only available from github so you'll have to clone it and install it's dependencies by hand.
 
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you may wish to include an additional section here: Upgrading
-(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+Install required modules:
+```shell
+puppet module install puppetlabs-apt camptocamp-openldap
+```
+Then clone this repository:
+```shell
+git clone https://github.com/lukrop/puppet-lukrop-fusiondirectory.git fusiondirectory
+```
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+Sample usage
+```puppet
+$schemas = ['fusiondirectory', 'samba', 'freeradius', 'mail']
+class { 'fusiondirectory':
+  base_dn   => 'dc=example,dc=com',
+  admin_pw  => 'supersecret',
+  ldap_tls  => true,
+}
+fusiondirectory::schema { $schemas:
+  ensure  => present,
+}
+```
 
 ## Reference
 
-Here, list the classes, types, providers, facts, etc contained in your module.
-This section should include all of the under-the-hood workings of your module so
-people know what the module is touching on their system but don't need to mess
-with things. (We are working on automating this section!)
-
-## Limitations
-
-This is where you list OS compatibility, version compatibility, etc.
-
-## Development
-
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
-
-## Release Notes/Contributors/Etc **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You may also add any additional sections you feel are
-necessary or important to include here. Please use the `## ` header.
+TODO
