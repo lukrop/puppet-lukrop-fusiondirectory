@@ -48,15 +48,25 @@ git clone https://github.com/lukrop/puppet-lukrop-fusiondirectory.git fusiondire
 ```
 
 ## Usage
-
-Sample usage
+Install fusiondirectory
 ```puppet
-$schemas = ['fusiondirectory', 'samba', 'freeradius', 'mail']
 class { 'fusiondirectory':
   base_dn   => 'dc=example,dc=com',
   admin_pw  => 'supersecret',
   ldap_tls  => true,
 }
+include fusiondirectory::install
+```
+Install plugins
+```puppet
+$plugins = ['fusiondirectory', 'samba', 'freeradius', 'mail']
+fusiondirectory::plugin { $schemas:
+  ensure  => present,
+}
+```
+Install only schemas:
+```puppet
+$schemas = ['fusiondirectory', 'samba', 'freeradius', 'mail']
 fusiondirectory::schema { $schemas:
   ensure  => present,
 }
