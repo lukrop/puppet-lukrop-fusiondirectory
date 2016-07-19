@@ -51,11 +51,11 @@ git clone https://github.com/lukrop/puppet-lukrop-fusiondirectory.git fusiondire
 Install fusiondirectory
 ```puppet
 class { 'fusiondirectory':
+  ensure    => present,
   base_dn   => 'dc=example,dc=com',
   admin_pw  => 'supersecret',
   ldap_tls  => true,
 }
-include fusiondirectory::install
 ```
 Install plugins
 ```puppet
@@ -73,5 +73,35 @@ fusiondirectory::schema { $schemas:
 ```
 
 ## Reference
+`fusiondirectory` parameters
+ * `ensure`
+   presence of fusiondirectory package and repository.
 
-TODO
+ * `base_dn`
+   LDAP base DN
+ 
+ * `admin_dn`
+   LDAP administrator account DN
+   Default: "cn=admin,${base_dn}"
+ 
+ * `admin_pw`
+   LDAP administrator password
+ 
+ * `ldap_uri`
+   LDAP URI
+   Default: 'ldap://localhost:389'
+ 
+ * `ldap_tls`
+   use TLS for the LDAP connection
+   Default: false
+ 
+ * `use_repo`
+   Use the official fusiondirectory apt repository.
+   Default: true
+ 
+ * `plugins` 
+   Array containing plugins to install.
+ 
+ * `schemas`
+   Array containing schemas to install.
+

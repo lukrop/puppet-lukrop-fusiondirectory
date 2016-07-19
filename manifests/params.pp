@@ -5,4 +5,6 @@ class fusiondirectory::params {
   $ldap_uri   = 'ldap://localhost:389'
   $ldap_tls   = false
   $use_repo   = true
+  $plugins    = []
+  $schemas    = []
 }
